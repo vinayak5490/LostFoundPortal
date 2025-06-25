@@ -12,10 +12,11 @@ export const protect = async(req, res, next)=>{
         const token = authHeaders.split(' ')[1];
 
         try {
-            console.log("JWT_SECRET: ", JWT_SECRET);
-            console.log("Token: ", token);
             const decoded = jwt.verify(token, JWT_SECRET);
             req.user = await User.findById(decoded.id).select('-password');
+            if(!req.user){
+                return res.status(401).json({message: "User not found"});
+            }
             next();
         } catch (error) {
             return res.status(401).json({message: "token is invalid"})

@@ -20,7 +20,7 @@ const itemSchema = mongoose.Schema(
         imageUrl:{
             type:String,
         },
-        data:{
+        date:{
             type:Date,
             default:Date.now()
         },

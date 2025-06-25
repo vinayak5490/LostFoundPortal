@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import LostItemForm from './pages/LostItemForm'
+import Home from './pages/Home'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Header />
       <div className="p-4">
         <Routes>
+          <Route path='/' element ={<Home/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/Signup' element={<SignUp/>} />
           <Route path='/dashboard' element={<Dashboard/>} />

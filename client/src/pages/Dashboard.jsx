@@ -1,67 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-function getUserIdFromToken(){
-  const token = localStorage.getItem('token');
-  if(!token) return null;
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.id;
-  } catch{
-    return null;
-  }
-}
+import React, { useEffect, useState } from 'react'
+import LostItemForm from './LostItemForm';
 
 const Dashboard = () => {
   const [items, setItems] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate();
-  const userId = getUserIdFromToken();
 
-  useEffect(()=>{
-    const fetchItems = async() =>{
-      try {
-        const res = await fetch('/api/item');
-        const data = await res.json();
-        setItems(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchItems();
-  }, []);
+// Fetch items from the backend
+const fetchItems = async () => {
+  try {
+    const res = await fetch('/api/item');
+    const data = await res.json();
+    setItems(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-  const userItems = items.filter(item => item.user && item.user._id === userId);
-
+useEffect(() => {
+  fetchItems();
+}, []);
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 flex flex-col">
-      <header className="flex justify-end p-6">
-        <button
-          onClick={() => navigate('/createnew')}
-          className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition font-semibold"
-        >
-          Create Lost Item Post
-        </button>
-      </header>
-      <main className="flex-1 flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-bold text-blue-700 mb-4">Your Posted Items</h1>
-        {userItems.length === 0 ? (
-          <p className="text-gray-600">You have not posted any items yet.</p>
+    <div className="min-h-screen bg-white pt-24 px-4">
+      <h1 className="text-3xl font-bold text-blue-700 mb-8 text-center">All Lost Items</h1>
+      {/* <LostItemForm onItemCreated = {fetchItems}/> */}
+      <div className="flex flex-col items-center gap-6">
+      {items.length === 0 ? (
+          <p className="text-gray-600">No items have been posted yet.</p>
         ) : (
-          <ul className="w-full max-w-xl space-y-4">
-            {userItems.map(item => (
-              <li key={item._id} className="bg-white rounded shadow p-4">
-                <h2 className="text-xl font-semibold">{item.title}</h2>
-                <p className="text-gray-700">{item.description}</p>
-                <p className="text-gray-500 text-sm">Location: {item.location}</p>
-                <p className="text-gray-400 text-xs">Type: {item.type}</p>
-              </li>
-            ))}
-          </ul>
+          items.map(item => (
+            <div
+              key={item._id}
+              className="w-full max-w-2xl bg-white rounded-xl shadow-lg flex flex-col md:flex-row gap-4 p-6 border border-blue-200"
+            >
+              {item.imageUrl && (
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="w-full md:w-48 h-48 object-cover rounded border"
+                />
+              )}
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h2 className="text-2xl font-semibold text-blue-800 mb-2">{item.title}</h2>
+                  <p className="text-gray-700 mb-2">{item.description}</p>
+                  <p className="text-gray-500 text-sm mb-1">Location: {item.location}</p>
+                  <p className="text-gray-400 text-xs mb-1">Type: {item.type}</p>
+                  <p className="text-gray-400 text-xs mb-1">
+                    Posted by: {item.user?.name} ({item.user?.email})
+                  </p>
+                  {item.date && (
+                    <p className="text-gray-400 text-xs">
+                      Date: {new Date(item.date).toLocaleDateString()}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
         )}
-      </main>
+      </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Dashboard

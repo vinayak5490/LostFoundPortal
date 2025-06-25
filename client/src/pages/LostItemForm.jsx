@@ -1,71 +1,112 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react'
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const LostItemForm = ({ onItemCreated }) => {
+const LostItemForm = () => {
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
+    description:'',
     location: '',
-  });
+    type: 'lost',
+  })
 
+  const [image, setImage] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(()=>{
     setIsLoggedIn(!!localStorage.getItem('token'));
-  }, []);
+  }, [])
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange=(e)=>{
+    setFormData({...formData, [e.target.name]:e.target.value});
+  }
 
-  const handleSubmit = async (e) => {
+  const handleImageChange=(e)=>{
+    setImage(e.target.files[0]);
+  }
+
+  const handleSubmit = async(e)=>{
     e.preventDefault();
-    try {
-      const res = await axios.post('/api/items', formData, {
-        headers: {
+    try{
+      const data = new FormData();
+      data.append('title', formData.title);
+      data.append('description', formData.description);
+      data.append('location', formData.location);
+      data.append('type', formData.type);
+      if(image) data.append('image', image);
+
+      await axios.post('/api/item', data,{
+        headers:{
           Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+          // 'content-Type': 'multipart/form-data',
+        }
       });
-      onItemCreated(); // refresh list
-      setFormData({ title: '', description: '', location: '' });
-    } catch (err) {
-      alert('Error: ' + (err.response?.data?.message || 'Unauthorized'));
+
+      setFormData({title: '', description: '', location: '', type: 'lost'});
+      setImage(null);
+      navigate('/dashboard')
+    }catch(err){
+      alert('Error: ' + (err.response?.data?.message || 'unauthorized'));
     }
   };
 
-  if (!isLoggedIn)
-    return (
-      <div className="bg-yellow-100 text-yellow-800 p-4 rounded mb-6">
-        Please <a href="/login" className="underline text-blue-600">login</a> to post a lost item.
-      </div>
-    );
+  if(!isLoggedIn)
+    return(
+  <div className="bg-yellow-100 text-yellow-800 p-4 rounded mb-6">
+    please <a href="/login"  className="underline text-blue-600">login</a> to post a lost item.
+  </div>
+  )
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow mb-6">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow mb-6"  encType='multipart/form-data'>
       <h2 className="text-xl font-bold mb-4 text-blue-600">Report Lost Item</h2>
-      <input
-        name="title"
-        placeholder="Item title"
-        value={formData.title}
-        onChange={handleChange}
-        className="w-full mb-3 p-2 border rounded"
-        required
+      <input type="text"
+      name='title'
+      placeholder='Item title'
+      value={formData.title}
+      onChange={handleChange}
+      className='w-full mb-3 p-2 border rounded' 
+      required
       />
+
       <textarea
-        name="description"
-        placeholder="Item description"
-        value={formData.description}
-        onChange={handleChange}
-        className="w-full mb-3 p-2 border rounded"
-        required
-      />
+       name="description"
+       value={formData.description}
+       onChange={handleChange}
+       className="w-full mb-3 p-2 border rounded"
+       required
+        />
+
       <input
-        name="location"
-        placeholder="Last seen location"
-        value={formData.location}
-        onChange={handleChange}
-        className="w-full mb-3 p-2 border rounded"
-        required
+      name='location'
+      placeholder='Last seen location'
+      value={formData.location}
+      onChange={handleChange}
+      className="w-full mb-3 p-2 border rounded"
+      required
       />
+
+      <select
+      name='type'
+      value={formData.type}
+      onChange={handleChange}
+      className="w-full mb-3 p-2 border rounded"
+      required
+      >
+        <option value="lost">Lost</option>
+        <option value="found">Found</option>
+      </select>
+
+      <input
+      type="file"
+      name='image'
+      accept='image/*'
+      onChange={handleImageChange}
+      className="w-full mb-3"
+       />
+
       <button
         type="submit"
         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
@@ -73,7 +114,7 @@ const LostItemForm = ({ onItemCreated }) => {
         Post Item
       </button>
     </form>
-  );
-};
+  )
+}
 
-export default LostItemForm;
+export default LostItemForm
