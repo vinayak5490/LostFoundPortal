@@ -3,9 +3,6 @@ import { Item } from "../models/Item.js";
 export const createItem = async(req, res)=>{
     try {
         const imageUrl = req.file ? req.file.path : "";
-        console.log("req.body:", req.body);
-        console.log("imageUrl:", imageUrl);
-        console.log("req.user:", req.user);
         const item = await Item.create({
             ...req.body,
             imageUrl,
@@ -29,5 +26,27 @@ export const getAllItem = async(req, res)=>{
         res.status(500).json({
             error: error.message
         })
+    }
+}
+
+export const deleteItem = async(req, res)=>{
+    const item = await Item.findById(req.params.id);
+    if(!item) return res.status(404).json({message:"Item not found"});
+    if(item.user.toString() !== req.user._id.toString()){
+        return res.status(403).json({message: 'Not authorized'});
+    }
+    await item.deleteOne();
+    res.json({message: 'Item deleted'});
+};
+
+export const getItemById = async(req, res)=>{
+    try {
+        const item = await Item.findById(req.params.id).populate('user', 'name email');
+        if(!item){
+            return res.status(404).json({message: 'Item not found'});
+        }
+        res.json(item);
+    } catch (error) {
+        res.status(500).json({error: error.message});
     }
 }

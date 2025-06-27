@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import LostItemForm from './pages/LostItemForm'
 import Home from './pages/Home'
+import ItemCardDetail from './components/ItemCardDetail'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path='/Signup' element={<SignUp/>} />
           <Route path='/dashboard' element={<Dashboard/>} />
           <Route path='/createnew' element = {<LostItemForm/>}/>
+          <Route path='/item/:id' element = {<ItemCardDetail/>} />
         </Routes>
       </div>
     </Router>

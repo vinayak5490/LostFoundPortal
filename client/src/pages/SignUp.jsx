@@ -23,6 +23,8 @@ const SignUp = () => {
         e.preventDefault();
         try {
             const res = await axios.post('/api/auth/signup', formData);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            localStorage.setItem('token', res.data.token);
             alert("signup successful");
             navigate('/dashboard');
             console.log(res.data);

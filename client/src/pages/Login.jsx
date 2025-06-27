@@ -18,6 +18,7 @@ const Login = () => {
     try {
       const res = await axios.post('/api/auth/login', formData);
       localStorage.setItem('token', res.data.token); // Store JWT token
+      localStorage.setItem('user', JSON.stringify(res.data.user))
       alert('Login successful!');
       navigate('/dashboard'); 
       console.log('Logged in user:', res.data.user); // optionally use this
