@@ -40,6 +40,13 @@ const Header = () => {
               POST
             </button>
             </Link>
+            
+            <Link to="/profile">
+            <button className="px-4 py-2 bg-white text-blue-700 rounded transition duration-200 hover:bg-blue-100 hover:shadow font-semibold border border-blue-200">
+              Profile
+            </button>
+            
+            </Link>
             </>
           ) : (
             <>

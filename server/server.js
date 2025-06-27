@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from './config/db.js'
 import itemRoutes from "./routes/itemRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
+import userRoutes from './routes/userRoutes.js'
 
 dotenv.config()
 const app = express();
@@ -16,6 +17,7 @@ connectDB();
 
 app.use('/api/item', itemRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 app.get('/', (req, res)=>{
     res.send("hello world!!");

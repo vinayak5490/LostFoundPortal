@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import LostItemForm from './pages/LostItemForm'
 import Home from './pages/Home'
 import ItemCardDetail from './components/ItemCardDetail'
+import Profile from './pages/Profile'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard/>} />
           <Route path='/createnew' element = {<LostItemForm/>}/>
           <Route path='/item/:id' element = {<ItemCardDetail/>} />
+          <Route path='/profile' element = {<Profile/>} />
         </Routes>
       </div>
     </Router>
