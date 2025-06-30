@@ -16,7 +16,7 @@ const Header = () => {
         <Link to="/" className="flex items-center space-x-2">
           <span className="text-3xl">🔎</span>
           <h1 className="text-2xl font-extrabold text-white tracking-wide drop-shadow font-serif">
-            Lost and Found
+            TraceIt 
           </h1>
         </Link>
         <div className="flex items-center space-x-4">

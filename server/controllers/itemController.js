@@ -1,4 +1,7 @@
 import { Item } from "../models/Item.js";
+import nodemailer from 'nodemailer'
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const createItem = async(req, res)=>{
     try {
@@ -48,5 +51,35 @@ export const getItemById = async(req, res)=>{
         res.json(item);
     } catch (error) {
         res.status(500).json({error: error.message});
+    }
+}
+
+export const foundItemContact = async(req, res)=>{
+    const {name, email, phone, message, itemId, ownerEmail} = req.body;
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth:{
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASS
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: ownerEmail,
+            subject: 'Someone found your lost item!',
+            text:`
+            Name: ${name}
+            Email: ${email}
+            phone: ${phone}
+            Message: ${message}
+            Item ID: ${itemId}
+            `
+        }
+        await transporter.sendMail(mailOptions);
+        res.json({success: true});
+    } catch (error) {
+        res.status(500).json({error: 'Failed to send email.'});
     }
 }

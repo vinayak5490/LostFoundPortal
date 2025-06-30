@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ItemCard = ({item, isOwner, onDelete, onSeeDetail}) => {
+const ItemCard = ({item, isOwner, onDelete, onSeeDetail, onFound}) => {
   return (
     <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg flex flex-col md:flex-row gap-4 p-6 border border-blue-200">
       {item.imageUrl && (
@@ -27,13 +27,20 @@ const ItemCard = ({item, isOwner, onDelete, onSeeDetail}) => {
           )}
         </div>
         <div className="flex justify-end items-end gap-3 mt-4">
-          {isOwner && (
+          {isOwner ? (
             <button
               className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
               onClick={() => onDelete(item)}
             >
-              Found
+              Delete
             </button>
+          ):(
+            <button
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            onClick={() => onFound(item)}
+          >
+            Found
+          </button>
           )}
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
