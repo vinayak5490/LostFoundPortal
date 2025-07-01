@@ -1,6 +1,6 @@
 # TraceIt - Lost & Found Portal
 
-TraceIt is a modern web application that helps users report, search, and recover lost items. Users can post lost/found items, chat in real-time, and contact each other securely.
+TraceIt is a modern web application that helps users report, search, and recover lost items. Users can post lost/found items, and contact each other securely.
 
 ## Features
 
@@ -74,12 +74,14 @@ Visit [http://localhost:5173](http://localhost:5173) (or your Vite port).
 
 ## Screenshots
 
-_Add screenshots or a demo GIF here!_
+![image](https://github.com/user-attachments/assets/2dc595ec-973a-4bde-b8e1-d69aea1f8c97)
+![image](https://github.com/user-attachments/assets/6e82ea39-78f8-4c22-9029-6b9df8060e4c)
+![image](https://github.com/user-attachments/assets/a2802674-b810-4b94-81d1-da1f886d3a48)
+![image](https://github.com/user-attachments/assets/581e8e5f-f856-4370-bac5-71ad7323544f)
+![image](https://github.com/user-attachments/assets/f3154e9d-b113-485d-9bfb-8f90e3281cf2)
+![image](https://github.com/user-attachments/assets/fbef8bd4-2175-4bf2-88c2-eda1d797430a)
 
-## License
 
-MIT
 
----
 
 **Made with ❤️ by vinayak**
