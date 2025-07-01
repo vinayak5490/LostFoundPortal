@@ -72,7 +72,9 @@ const handleSendFoundInfo = async(e)=>{
     body: JSON.stringify({
       ...finderInfo,
       itemId: foundItem._id,
-      ownerEmail: foundItem.user.email
+      ownerEmail: foundItem.user.email,
+      itemTitle: foundItem.title,
+      itemImageUrl: foundItem.imageUrl
     })
    });
    if(res.ok){

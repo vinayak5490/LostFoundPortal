@@ -55,7 +55,7 @@ export const getItemById = async(req, res)=>{
 }
 
 export const foundItemContact = async(req, res)=>{
-    const {name, email, phone, message, itemId, ownerEmail} = req.body;
+    const {name, email, phone, message, itemId, ownerEmail, itemTitle, itemImageUrl} = req.body;
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -66,17 +66,25 @@ export const foundItemContact = async(req, res)=>{
         });
 
         const mailOptions = {
-            from: process.env.GMAIL_USER,
-            to: ownerEmail,
-            subject: 'Someone found your lost item!',
-            text:`
-            Name: ${name}
-            Email: ${email}
-            phone: ${phone}
-            Message: ${message}
-            Item ID: ${itemId}
-            `
-        }
+          from: process.env.GMAIL_USER,
+          to: ownerEmail,
+          subject: "Someone found your lost item!",
+          html: `
+                <h2>Someone found your lost item!</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Message:</strong> ${message}</p>
+                <hr/>
+                <p><strong>Item Name:</strong> ${itemTitle}</p>
+                <p><strong>Item ID:</strong> ${itemId}</p>
+                ${
+                  itemImageUrl
+                    ? `<img src="${itemImageUrl}" alt="Item Image" style="max-width:300px;"/>`
+                    : ""
+                }
+            `,
+        };
         await transporter.sendMail(mailOptions);
         res.json({success: true});
     } catch (error) {

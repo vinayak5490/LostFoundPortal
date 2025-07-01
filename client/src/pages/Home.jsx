@@ -11,7 +11,7 @@ const Home = () => {
     >
       <div className="w-full bg-white bg-opacity-80 rounded-xl shadow-lg p-16 mx-8 text-center border border-blue-200">
         <h1 className="text-5xl font-extrabold text-blue-900 mb-6 drop-shadow font-serif">
-          Welcome to Lost &amp; Found Portal
+          TraceIt
         </h1>
         <p className="text-xl text-gray-700 mb-8 font-serif">
           Find your lost items or help others by posting found items.<br />
