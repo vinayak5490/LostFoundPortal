@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const LostItemForm = () => {
   const [formData, setFormData] = useState({
@@ -46,9 +47,10 @@ const LostItemForm = () => {
 
       setFormData({title: '', description: '', location: '', type: 'lost'});
       setImage(null);
+      toast.success('Post have been created successfully!!')
       navigate('/dashboard')
     }catch(err){
-      alert('Error: ' + (err.response?.data?.message || 'unauthorized'));
+      toast.error('Error: ' + (err.response?.data?.message || 'unauthorized'));
     }
   };
 

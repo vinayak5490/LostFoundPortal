@@ -8,11 +8,13 @@ import LostItemForm from './pages/LostItemForm'
 import Home from './pages/Home'
 import ItemCardDetail from './components/ItemCardDetail'
 import Profile from './pages/Profile'
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
 
   return (
     <Router>
+      <ToastContainer position="top-right" autoClose={3000} />
       <Header />
       <div className="p-4">
         <Routes>
