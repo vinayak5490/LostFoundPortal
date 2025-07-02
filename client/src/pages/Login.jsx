@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,12 +20,14 @@ const Login = () => {
       const res = await axios.post('/api/auth/login', formData);
       localStorage.setItem('token', res.data.token); // Store JWT token
       localStorage.setItem('user', JSON.stringify(res.data.user))
-      alert('Login successful!');
+      // alert('Login successful!');
+      toast.success('login successful')
       navigate('/dashboard'); 
       console.log('Logged in user:', res.data.user); // optionally use this
     } catch (err) {
       console.error(err);
-      alert('Login failed: ' + (err.response?.data?.message || 'Server error'));
+      // alert('Login failed: ' + (err.response?.data?.message || 'Server error'));
+      toast.error('Login failed: ' + (err.response?.data?.message || 'Server error'))
     }
   };
 

@@ -3,6 +3,7 @@ import LostItemForm from './LostItemForm';
 import { useNavigate } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
 import ItemCardDetail from '../components/ItemCardDetail';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Dashboard = () => {
   const [items, setItems] = useState([]);
@@ -78,14 +79,14 @@ const handleSendFoundInfo = async(e)=>{
     })
    });
    if(res.ok){
-    alert('Your info has been sent to the owner!');
+    toast.success('Your info has been sent to the owner!');
     setShowFoundModal(false);
     setFinderInfo({name: '', email: '', phone: '', message: ''});
    }else{
-    alert('Failed to send Info');
+    toast.error('Failed to send Info');
    } 
   } catch (error) {
-    alert('Error sending infor.');
+    toast.error('Error sending infor.');
   }
 }
 return (

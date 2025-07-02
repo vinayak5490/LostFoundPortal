@@ -3,6 +3,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { use } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -25,12 +26,12 @@ const SignUp = () => {
             const res = await axios.post('/api/auth/signup', formData);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             localStorage.setItem('token', res.data.token);
-            alert("signup successful");
+            toast.success("signup successful");
             navigate('/dashboard');
             console.log(res.data);
         } catch (error) {
             console.error(error)
-            alert('signup Failed: '+(error.response?.message?.data || 'Server error'));
+            toast.error('signup Failed: '+(error.response?.message?.data || 'Server error'));
         }
       }
 
