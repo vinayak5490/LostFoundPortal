@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import imageCompression from 'browser-image-compression';
 
 const LostItemForm = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +37,12 @@ const LostItemForm = () => {
       data.append('description', formData.description);
       data.append('location', formData.location);
       data.append('type', formData.type);
-      if(image) data.append('image', image);
+      // if(image) data.append('image', image);
+      if(image){
+        const options = {maxSizeMB: 0.6, maxWidthOrHeight: 1280, useWebWorker: true};
+        const compressedFile = await imageCompression(image, options);
+        data.append('image', compressedFile, compressedFile.name || 'upload.jpg');
+      }
 
       await axios.post('/api/item', data,{
         headers:{
